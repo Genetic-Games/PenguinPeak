@@ -1,5 +1,4 @@
-﻿using PenguinPeak.Enums.Directions;
-using PenguinPeak.Models;
+﻿using PenguinPeak.Models;
 using System;
 using System.Collections.Generic;
 
@@ -9,19 +8,15 @@ namespace PenguinPeak.Generators
     {
         private readonly Random _random = new();
 
-        private static readonly Direction _left = new() { Horizontal = Horizontal.Left };
-        private static readonly Direction _right = new() { Horizontal = Horizontal.Right };
-        private static readonly Direction _up = new() { Vertical = Vertical.Up };
-        private static readonly Direction _down = new() { Vertical = Vertical.Down };
-
-        private static readonly Direction _upAndLeft = new() { Vertical = Vertical.Up, Horizontal = Horizontal.Left };
-        private static readonly Direction _upAndRight = new() { Vertical = Vertical.Up, Horizontal = Horizontal.Right };
-        private static readonly Direction _downAndLeft = new() { Vertical = Vertical.Down, Horizontal = Horizontal.Left };
-        private static readonly Direction _downAndRight = new() { Vertical = Vertical.Down, Horizontal = Horizontal.Right };
-
-        private readonly List<Direction> _diagonalDirections = new() { _upAndLeft, _upAndRight, _downAndLeft, _downAndRight };
-        private readonly List<Direction> _horizontalDirections = new() { _left, _right };
-        private readonly List<Direction> _verticalDirections = new() { _up, _down };
+        private readonly List<Direction> _diagonalDirections = new()
+        {
+            Direction.Up.Combine(Direction.Left),
+            Direction.Up.Combine(Direction.Right),
+            Direction.Down.Combine(Direction.Left),
+            Direction.Down.Combine(Direction.Right)
+        };
+        private readonly List<Direction> _horizontalDirections = new() { Direction.Left, Direction.Right };
+        private readonly List<Direction> _verticalDirections = new() { Direction.Up, Direction.Down };
 
         /// <summary>
         /// Generate a 2D height map given a specific map size and roughness delta utilizing the Diamond-Square algorithm.
@@ -163,7 +158,7 @@ namespace PenguinPeak.Generators
         {
             var randomValue = _random.NextDouble();
             var heightRoughness = (randomValue * 2.0f * roughness) - roughness;
-            
+
             // Single (precision) is synonymous with float and has half of the precision of a double
             return Convert.ToSingle(heightRoughness);
         }
