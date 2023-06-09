@@ -1,24 +1,21 @@
 using PenguinPeak.Generators;
-using System;
 using UnityEngine;
 
 namespace PenguinPeak.Controllers
 {
-    public class GameController : MonoBehaviour
+    public class MountainController : MonoBehaviour
     {
         public int MapSize;
         public double MapRoughnessDelta;
 
         public Terrain MountainTerrain;
 
-        private HeightMapGenerator _heightMapGenerator;
+        private HeightMapGenerator _heightMapGenerator = new();
 
         // Initialization
         void Start()
         {
             Debug.Assert(MountainTerrain != null, "The mountain terrain object is not properly set.");
-
-            _heightMapGenerator = new HeightMapGenerator();
 
             var heightMap = _heightMapGenerator.GenerateHeightMap(mapSize: MapSize, roughnessDelta: MapRoughnessDelta);
             Debug.Log(heightMap); // TODO - FIX ME TO DUMP REAL VALUES
@@ -29,7 +26,7 @@ namespace PenguinPeak.Controllers
         // Game Loop - Executed Once Per Frame
         void Update()
         {
-        
+
         }
     }
 }

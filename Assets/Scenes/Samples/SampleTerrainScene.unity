@@ -212,7 +212,7 @@ GameObject:
   - component: {fileID: 733278033}
   - component: {fileID: 733278032}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: MountainController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
