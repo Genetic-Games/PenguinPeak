@@ -1,4 +1,5 @@
-﻿using PenguinPeak.Models;
+﻿using PenguinPeak.Extensions;
+using PenguinPeak.Models;
 using System;
 using System.Collections.Generic;
 
@@ -61,7 +62,10 @@ namespace PenguinPeak.Generators
                 roughness *= roughnessDelta;
             }
 
-            return map;
+            // Unity terrain height maps are indexed by [y,x] weirdly, so transpose to conform to that
+            // More details - https://docs.unity3d.com/ScriptReference/TerrainData.SetHeights.html
+            var transposedMap = map.Transpose();
+            return transposedMap;
         }
 
         private float[,] DiamondStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, double roughness)

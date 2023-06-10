@@ -1,4 +1,3 @@
-using PenguinPeak.Extensions;
 using PenguinPeak.Generators;
 using UnityEngine;
 
@@ -39,8 +38,7 @@ namespace PenguinPeak.Controllers
 
         public void GenerateHeightMap()
         {
-            var heightMap = _heightMapGenerator.GenerateHeightMap(mapSize: MapSize, roughnessDelta: MapRoughnessDelta);
-            HeightMap = heightMap.Transpose(); // TODO - FIGURE OUT IF WE REALLY NEED / WANT TO TRANSPOSE HERE BASED ON THIS - https://docs.unity3d.com/ScriptReference/TerrainData.SetHeights.html
+            HeightMap = _heightMapGenerator.GenerateHeightMap(mapSize: MapSize, roughnessDelta: MapRoughnessDelta);
         }
 
         public void ApplyHeightMapToTerrain(float[,] heightMap, Terrain terrain)
