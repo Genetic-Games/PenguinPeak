@@ -1,3 +1,4 @@
+using PenguinPeak.Extensions;
 using PenguinPeak.Generators;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ namespace PenguinPeak.Controllers
 
         public Terrain MountainTerrain;
 
-        private HeightMapGenerator _heightMapGenerator = new();
+        private readonly HeightMapGenerator _heightMapGenerator = new();
 
         // Initialization
         void Start()
@@ -18,7 +19,7 @@ namespace PenguinPeak.Controllers
             Debug.Assert(MountainTerrain != null, "The mountain terrain object is not properly set.");
 
             var heightMap = _heightMapGenerator.GenerateHeightMap(mapSize: MapSize, roughnessDelta: MapRoughnessDelta);
-            Debug.Log(heightMap); // TODO - FIX ME TO DUMP REAL VALUES
+            Debug.Log(heightMap.TwoDimensionalArrayToString());
 
             MountainTerrain.terrainData.SetHeights(xBase: 0, yBase: 0, heights: heightMap);
         }

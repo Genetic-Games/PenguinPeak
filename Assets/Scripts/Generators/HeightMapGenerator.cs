@@ -23,7 +23,8 @@ namespace PenguinPeak.Generators
         /// Details - https://en.wikipedia.org/wiki/Diamond-square_algorithm 
         /// </summary>
         /// <param name="mapSize">The size of one dimension of the height map to be generated (not the height dimension)</param>
-        /// <param name="roughnessDelta">The </param>
+        /// <param name="roughnessDelta">How rough (i.e. jagged) the height map should be between nearby points, represented by a value 
+        /// between 0.0 and 1.0 (exclusive) with a higher value meaning more rough</param>
         /// <returns>Returns a mapSize by mapSize 2D array of height values</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
         public float[,] GenerateHeightMap(int mapSize, double roughnessDelta)
