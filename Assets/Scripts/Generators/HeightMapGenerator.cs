@@ -28,7 +28,7 @@ namespace PenguinPeak.Generators
         /// between 0.0 and 1.0 (exclusive) with a higher value meaning more rough</param>
         /// <returns>Returns a mapSize by mapSize 2D array of height values</returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public float[,] GenerateHeightMap(int mapSize, double roughnessDelta)
+        public float[,] GenerateHeightMap(int mapSize, float roughnessDelta)
         {
             if (mapSize <= 0)
             {
@@ -40,7 +40,7 @@ namespace PenguinPeak.Generators
                 throw new ArgumentOutOfRangeException(nameof(mapSize), mapSize, "Value must be equal to 2^(k) + 1 for any positive integer value of k.");
             }
 
-            if (roughnessDelta <= 0.0d || roughnessDelta >= 1.0d)
+            if (roughnessDelta <= 0.0f || roughnessDelta >= 1.0f)
             {
                 throw new ArgumentOutOfRangeException(nameof(roughnessDelta), roughnessDelta, "Value must be between 0.0 and 1.0 (exclusive)");
             }
@@ -48,17 +48,17 @@ namespace PenguinPeak.Generators
             var map = new float[mapSize, mapSize];
 
             var distanceToSimilarCells = mapSize - 1;
-            var roughness = 1.0d;
+            var roughness = 1.0f;
 
             while (distanceToSimilarCells > 1)
             {
-                var distanceToNextCell = (int)Math.Floor(distanceToSimilarCells / 2.0d);
+                var distanceToNextCell = (int)Math.Floor(distanceToSimilarCells / 2.0f);
 
                 map = DiamondStep(map, mapSize, distanceToSimilarCells, distanceToNextCell, roughness);
                 map = SquareHorizontalStep(map, mapSize, distanceToSimilarCells, distanceToNextCell, roughness);
                 map = SquareVerticalStep(map, mapSize, distanceToSimilarCells, distanceToNextCell, roughness);
 
-                distanceToSimilarCells = (int)Math.Floor(distanceToSimilarCells / 2.0d);
+                distanceToSimilarCells = (int)Math.Floor(distanceToSimilarCells / 2.0f);
                 roughness *= roughnessDelta;
             }
 
@@ -68,7 +68,7 @@ namespace PenguinPeak.Generators
             return transposedMap;
         }
 
-        private float[,] DiamondStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, double roughness)
+        private float[,] DiamondStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, float roughness)
         {
             for (var x = distanceToNextCell; x < mapSize; x += distanceToSimilarCells)
             {
@@ -88,7 +88,7 @@ namespace PenguinPeak.Generators
             return map;
         }
 
-        private float[,] SquareHorizontalStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, double roughness)
+        private float[,] SquareHorizontalStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, float roughness)
         {
             for (var x = distanceToNextCell; x < mapSize; x += distanceToSimilarCells)
             {
@@ -108,7 +108,7 @@ namespace PenguinPeak.Generators
             return map;
         }
 
-        private float[,] SquareVerticalStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, double roughness)
+        private float[,] SquareVerticalStep(float[,] map, int mapSize, int distanceToSimilarCells, int distanceToNextCell, float roughness)
         {
             for (var x = 0; x < mapSize; x += distanceToSimilarCells)
             {
@@ -150,16 +150,17 @@ namespace PenguinPeak.Generators
         }
 
         /// <summary>
-        /// The Random class does not allow you to generate a random double in a specified range
+        /// The Random class does not allow you to generate a random float in a specified range
         /// In order to do that manually, this function:
         ///   1. Generates a double in the range [0, 1)
         ///   2. Widens the range to [0, 2 * roughness) with multiplacation
         ///   3. Shifts the range to [-roughness, +roughness) with subtraction
+        ///   4. Converts to a float from a double
         ///
         /// Details - https://learn.microsoft.com/en-us/dotnet/api/system.random?view=net-7.0#retrieve-integers-in-a-specified-range
         /// </summary>
         /// <returns>Height roughness</returns>
-        private float GetHeightRoughness(double roughness)
+        private float GetHeightRoughness(float roughness)
         {
             var randomValue = _random.NextDouble();
             var heightRoughness = (randomValue * 2.0f * roughness) - roughness;

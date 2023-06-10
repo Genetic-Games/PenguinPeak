@@ -1,14 +1,16 @@
 using PenguinPeak.Generators;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace PenguinPeak.Controllers
 {
     public class MountainController : MonoBehaviour
     {
         public int MapSize;
-        public double MapRoughnessDelta;
+        public float MapRoughnessDelta;
 
         public Terrain MountainTerrain;
+        public Slider MapRoughnessSlider;
 
         private float[,] HeightMap;
 
@@ -18,9 +20,12 @@ namespace PenguinPeak.Controllers
         public void Start()
         {
             Debug.Assert(MountainTerrain != default, $"{nameof(MountainTerrain)} is not properly set.");
+            Debug.Assert(MapRoughnessSlider != default, $"{nameof(MapRoughnessSlider)} is not properly set.");
+
             Debug.Assert(MapSize != default, $"{nameof(MapSize)} is not properly set.");
             Debug.Assert(MapRoughnessDelta != default, $"{nameof(MapRoughnessDelta)} is not properly set.");
 
+            SetMapRoughnessOnSlider(MapRoughnessDelta);
             GenerateAndApplyHeightMapToTerrain();
         }
 
@@ -44,6 +49,17 @@ namespace PenguinPeak.Controllers
         public void ApplyHeightMapToTerrain(float[,] heightMap, Terrain terrain)
         {
             terrain.terrainData.SetHeights(xBase: 0, yBase: 0, heights: heightMap);
+        }
+
+        public void SetMapRoughnessOnSlider(float value)
+        {
+            MapRoughnessSlider.value = value;
+        }
+
+        public void UpdateMapRoughnessFromSlider()
+        {
+            var sliderValue = MapRoughnessSlider.value;
+            MapRoughnessDelta = sliderValue;
         }
     }
 }
