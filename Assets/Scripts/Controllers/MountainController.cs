@@ -1,4 +1,4 @@
-using PenguinPeak.Generators;
+﻿using PenguinPeak.Generators;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,6 +60,12 @@ namespace PenguinPeak.Controllers
         {
             var sliderValue = MapRoughnessSlider.value;
             MapRoughnessDelta = sliderValue;
+        }
+
+        public void SetMapSize(int value)
+        {
+            MapSize = value;
+            MountainTerrain.terrainData.heightmapResolution = value;  // TODO - Put this into another function or a state maybe?
         }
     }
 }
